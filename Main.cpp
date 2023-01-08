@@ -19,6 +19,8 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+
+
 	GLfloat vertices[] = {
 		-0.5f,  0.0f,  0.5f,		0.83f, 0.70f, 0.44f,		0.0f, 0.0f,
 		-0.5f,  0.0f, -0.5f,		0.83f, 0.70f, 0.44f,		5.0f, 1.0f,
@@ -52,33 +54,27 @@ int main() {
 	glfwMakeContextCurrent(window);
 	gladLoadGL();
 
+	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, width, height);
 
+	//////////////////////////////////////////////////////////////////////////////////////////////
 	Shader shaderProgram("vertex_shader.vs", "fragment_shader.fs");
-
 	VAO VAO1;
 	VAO1.Bind();
-	
 	VBO VBO1(vertices, sizeof(vertices));
 	EBO EBO1(indices, sizeof(indices));
-
 	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
 	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6*sizeof(float)));
 	VAO1.Unbind();
 	VBO1.Unbind();
 	EBO1.Unbind();
+	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	Texture wall("Resources/container.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 	wall.textUnit(shaderProgram, "tex0", 0);
 
-	float rotation = 0.0f;
-	double prevTime = glfwGetTime();
-
-	glEnable(GL_DEPTH_TEST);
-
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f), window);
-
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 
@@ -88,7 +84,8 @@ int main() {
 
 		shaderProgram.activate();
 		camera.Inputs(window);
-		camera.Matrix(60.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
+		camera.updateMatrix(60.0f, 0.1f, 100.0f);
+		camera.Matrix(shaderProgram, "camMatrix");
 		/////////////
 
 		wall.bind();

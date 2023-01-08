@@ -58,6 +58,12 @@
     <None Include="fragment_shader.fs">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
+    <None Include="light.vs">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="light.fs">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderClass.h">

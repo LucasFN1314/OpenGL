@@ -149,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragment_shader.fs" />
+    <None Include="light.fs" />
+    <None Include="light.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
